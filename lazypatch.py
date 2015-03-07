@@ -363,7 +363,11 @@ class Installer:
 						patch.install()
 					elif options.norunpost == True:
 						if patchfile != patchlist[-1]:
-							patch.install(runpost=False)
+							if patchfile.lower().endswith('c.zip'):
+								#postload after cumulative
+								patch.install(runpost=True)
+							else:
+								patch.install(runpost=False)
 						elif patchfile == patchlist[-1]:
 							patch.install(runpost=True)
 					patch.logprepare()
