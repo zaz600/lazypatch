@@ -290,6 +290,16 @@ class Installer:
 			print_exc(file=open(dumpfile, "a"))
 			return False
 
+	def checklist(self, patchlist):
+		if len(patchlist) == 0:
+			return
+		lazylogger.info("Found %s patches. Check files..." % len(patchlist))
+		for patchfile in patchlist:
+			patch = Patchfile(patchfile, self.directory)
+			if not patch.check():
+				lazylogger.error("Patch %s check failed. Exiting..." % patchfile)
+				sys.exit(70)
+	
 	def killblocking(self):
 		lazylogger.info("Killing blocking oracle sessions...")
 		try:
@@ -560,6 +570,7 @@ if __name__=="__main__":
 		elif options.patchdir:
 			installer = Installer(options.patchdir)
 			patchlist = installer.createlist()
+			installer.checklist(patchlist)
 
 			if not patchlist and not options.runautoconfig and not options.customfile:
 				lazylogger.info("Nothing to do. Exiting...")
