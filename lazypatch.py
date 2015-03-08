@@ -294,11 +294,15 @@ class Installer:
 		if len(patchlist) == 0:
 			return
 		lazylogger.info("Found %s patches. Check files..." % len(patchlist))
+		err = False
 		for patchfile in patchlist:
 			patch = Patchfile(patchfile, self.directory)
 			if not patch.check():
-				lazylogger.error("Patch %s check failed. Exiting..." % patchfile)
-				sys.exit(70)
+				lazylogger.error("Patch %s check failed..." % patchfile)
+				err = True
+		if err:
+			lazylogger.error("Critical errors were found in patches. Exiting...")
+			sys.exit(70)
 	
 	def killblocking(self):
 		lazylogger.info("Killing blocking oracle sessions...")
