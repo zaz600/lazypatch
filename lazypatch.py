@@ -576,8 +576,8 @@ if __name__=="__main__":
 		elif options.patchdir:
 			installer = Installer(options.patchdir)
 			patchlist = installer.createlist()
-			installer.checklist(patchlist)
 			if options.testonly:
+				installer.checklist(patchlist)
 				lazylogger.info("--test-only (-t). Exiting...")
 				sys.exit(0)
 
