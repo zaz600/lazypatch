@@ -489,8 +489,6 @@ if __name__=="__main__":
 			version="version: %prog 0.9b")
 	parser.add_option("-d", "--debug", action="store_true", dest="debug",
 			default=False, help="print debug messages")
-	parser.add_option("-t", "--test-only", action="store_true", dest="testonly",
-			default=False, help="test patch files and exit")
 	parser.add_option("-p", "--patch-dir", dest="patchdir", help="directory to patches",
 			metavar="PATCHDIR")
 	parser.add_option("-k", "--kill-blocking", action="store_true", dest="killblock",
@@ -576,10 +574,7 @@ if __name__=="__main__":
 		elif options.patchdir:
 			installer = Installer(options.patchdir)
 			patchlist = installer.createlist()
-			if options.testonly:
-				installer.checklist(patchlist)
-				lazylogger.info("--test-only (-t). Exiting...")
-				sys.exit(0)
+			installer.checklist(patchlist)
 
 			if not patchlist and not options.runautoconfig and not options.customfile:
 				lazylogger.info("Nothing to do. Exiting...")
